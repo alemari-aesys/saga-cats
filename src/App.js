@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCat } from "./redux/reducers/catsReducer"
+
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCat());
+  }, [dispatch]);
+
+  const cat = useSelector((state) => state.cat);
+  console.log(cat && cat[0].url);
+
+  const newCat = () => {
+    dispatch(getCat());
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {cat && <img style={{width: "300px", height: "300px"}} src={cat[0].url}></img>}
+      <button onClick={newCat}>NEW CAT</button>
     </div>
   );
 }
